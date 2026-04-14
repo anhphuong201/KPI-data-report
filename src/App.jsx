@@ -28,7 +28,7 @@ const TAXONOMY = [
   { id: "RD_CONTRACTS", label: "R&D Contracts", sub: [
     { id: "RD_INDUSTRY", label: "Industry R&D Contracts" },
     { id: "RD_OTHER", label: "Other R&D Contracts" },
-    { id: "RD_GOV", label: "Government Contracts" },
+    { id: "RD_GOV", label: "Government R&D Contracts" },
   ]},
 ];
 
@@ -60,10 +60,10 @@ const DEFAULT_KEYWORDS = {
   ACOA_BDP: ["BDP", "Business Development Program"],
   ACOA_ICF: ["ICF", "PBS", "Innovative Communities Fund"],
   PROV_VOUCHER: ["Voucher", "Bon de service", "Innovation Voucher"],
-  PROV_OTHER: ["Province", "Provincial", "Gouvernement du Nouveau-Brunswick", "Government of New Brunswick", "Nova Scotia", "Newfoundland", "Prince Edward Island", "NBIF", "NSRIT", "NSBI", "New Brunswick Innovation Foundation", "Consortium national de formation en santé"],
-  GOV_LEVERAGED: ["SIF", "Strategic Innovation Fund", "FedDev", "Western Economic Diversification"],
-  RD_INDUSTRY: ["Industry R&D", "Research Contract", "Contrat de recherche", "Foreign Business", "Republic Services", "Industry Partner", "Contract"],
-  RD_OTHER: ["Research Agreement", "Research Services", "Testing", "Clinical", "NGO", "Not-for-profit", "Lease Agreement", "Atlantic Association"],
+  PROV_OTHER: ["Province", "Provincial", "Gouvernement du Nouveau-Brunswick", "Government of New Brunswick", "Government of Nova Scotia", "Government of Newfoundland and Labrador", "Government of Prince Edward Island"],
+  GOV_LEVERAGED: ["SIF", "Strategic Innovation Fund", "FedDev"],
+  RD_INDUSTRY: ["Industry R&D", "Research Contract", "Contrat de recherche", , "Industry Partner", "Contract"],
+  RD_OTHER: ["Research Agreement", "Research Services", "Testing", "Clinical", "NGO", "Not-for-profit", "Association", "Community"],
   RD_GOV: ["Government of Canada", "Gouvernement du Canada", "Canadian Heritage", "Department of Canadian Heritage", "DND", "Agriculture Canada", "Environment Canada", "Ministère de l'Éducation", "Gouvernement du Nouveau-Brunswick"],
 };
 
