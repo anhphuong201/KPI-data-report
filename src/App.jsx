@@ -60,7 +60,7 @@ const DEFAULT_KEYWORDS = {
   ACOA_BDP: ["BDP", "Business Development Program"],
   ACOA_ICF: ["ICF", "PBS", "Innovative Communities Fund"],
   PROV_VOUCHER: ["Voucher", "Bon de service", "Innovation Voucher"],
-  PROV_OTHER: ["Province", "Provincial", "Gouvernement du Nouveau-Brunswick", "Government of New Brunswick", "Government of Nova Scotia", "Government of Newfoundland and Labrador", "Government of Prince Edward Island"],
+  PROV_OTHER: ["Province", "Provincial", "Gouvernement du Nouveau-Brunswick", "Government of New Brunswick", "Nova Scotia", "Newfoundland", "Prince Edward Island", "NBIF", "NSRIT", "NSBI", "New Brunswick Innovation Foundation", "Consortium national de formation en santé"],
   GOV_LEVERAGED: ["SIF", "Strategic Innovation Fund", "FedDev", "Western Economic Diversification"],
   RD_INDUSTRY: ["Industry R&D", "Research Contract", "Contrat de recherche", "Foreign Business", "Republic Services", "Industry Partner", "Contract"],
   RD_OTHER: ["Research Agreement", "Research Services", "Testing", "Clinical", "NGO", "Not-for-profit", "Lease Agreement", "Atlantic Association"],
@@ -325,6 +325,13 @@ export default function App() {
             <button style={S.btnP} onClick={() => fileRef.current.click()}>Choose file</button>
           </div>
           <p style={{ fontSize:12, color:"var(--color-text-secondary)", margin:0 }}>Auto-detects: Project Title, Agency, PI, Awarded Amount, Program, Department, Start Date</p>
+          <div style={{ marginTop:"1.25rem", paddingTop:"1.25rem", borderTop:"0.5px solid var(--color-border-tertiary)" }}>
+            <div style={{ fontSize:13, fontWeight:500, marginBottom:"0.4rem" }}>Category keywords</div>
+            <p style={{ fontSize:13, color:"var(--color-text-secondary)", margin:"0 0 0.75rem", lineHeight:1.6 }}>
+              Set up your keyword rules before uploading. Keywords control how projects are auto-categorized based on funding agency and program name.
+            </p>
+            <button style={S.btn} onClick={() => { setKwDraft(JSON.parse(JSON.stringify(keywords))); setKwInput({}); setEditingKw(true); }}>⚙ Edit category keywords</button>
+          </div>
         </div>
       )}
 
@@ -495,30 +502,33 @@ export default function App() {
 
       {/* Keywords Modal */}
       {editingKw && kwDraft && (
-        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.45)", display:"flex", alignItems:"flex-start", justifyContent:"center", zIndex:1000, overflowY:"auto", padding:"40px 16px" }}>
-          <div style={{ ...S.card, width:"min(720px,100%)", margin:"0 auto" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1rem" }}>
-              <h2 style={{ fontSize:16, fontWeight:500, margin:0 }}>Category keywords</h2>
-              <button style={S.btn} onClick={() => setEditingKw(false)}>Close</button>
+        <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.55)", display:"flex", alignItems:"flex-start", justifyContent:"center", zIndex:1000, overflowY:"auto", padding:"40px 16px" }}>
+          <div style={{ width:"min(740px,100%)", margin:"0 auto", background:"#ffffff", border:"1px solid #d0d0d0", borderRadius:12, padding:"1.75rem", boxShadow:"0 8px 32px rgba(0,0,0,0.18)" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"0.75rem" }}>
+              <h2 style={{ fontSize:17, fontWeight:600, margin:0, color:"#111" }}>Category keywords</h2>
+              <button style={{ border:"1px solid #ccc", background:"#f5f5f5", color:"#333", padding:"5px 14px", borderRadius:6, fontSize:13, cursor:"pointer" }} onClick={() => setEditingKw(false)}>Close</button>
             </div>
-            <p style={{ fontSize:13, color:"var(--color-text-secondary)", lineHeight:1.6, margin:"0 0 1.25rem" }}>
-              If a project's funding agency or program matches any keyword (case-insensitive), it is assigned that sub-category. Saved locally for future sessions. Press Enter to add a keyword.
+            <p style={{ fontSize:13, color:"#555", lineHeight:1.6, margin:"0 0 1.25rem", background:"#f8f8f8", border:"1px solid #e8e8e8", borderRadius:8, padding:"10px 14px" }}>
+              If a project's funding agency or program contains any keyword (case-insensitive), it is assigned that sub-category. Keywords are saved locally in your browser for future sessions. Press <strong>Enter</strong> to add a keyword.
             </p>
 
             {TAXONOMY.map(g => (
               <div key={g.id} style={{ marginBottom:"1.5rem" }}>
-                <div style={{ fontSize:13, fontWeight:500, color:"var(--color-text-secondary)", marginBottom:"0.5rem", paddingBottom:"0.3rem", borderBottom:"0.5px solid var(--color-border-tertiary)" }}>{g.label}</div>
+                <div style={{ fontSize:13, fontWeight:600, color:"#222", marginBottom:"0.6rem", paddingBottom:"0.4rem", borderBottom:"2px solid #e0e0e0", display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ background:"#185FA5", color:"#fff", borderRadius:4, padding:"2px 8px", fontSize:11, fontWeight:500 }}>{g.label}</span>
+                </div>
                 {(g.sub.length === 0 ? [{ id:g.id, label:g.label }] : g.sub).map(s => (
-                  <div key={s.id} style={{ marginBottom:"0.75rem", paddingLeft:g.sub.length>0?16:0 }}>
-                    <div style={{ marginBottom:6 }}><Badge id={s.id} /></div>
-                    <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                  <div key={s.id} style={{ marginBottom:"1rem", paddingLeft:g.sub.length>0?16:0, paddingTop:"0.5rem", paddingBottom:"0.5rem", borderBottom:"0.5px solid #ececec" }}>
+                    <div style={{ marginBottom:8, fontSize:12, fontWeight:600, color:"#333" }}>{s.label}</div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:6, alignItems:"center" }}>
                       {(kwDraft[s.id]||[]).map((w,i) => (
-                        <span key={i} style={{ display:"inline-flex", alignItems:"center", gap:4, background:"var(--color-background-secondary)", border:"0.5px solid var(--color-border-tertiary)", borderRadius:20, padding:"2px 10px", fontSize:12 }}>
+                        <span key={i} style={{ display:"inline-flex", alignItems:"center", gap:5, background:"#eef4fc", border:"1px solid #b8d0ee", borderRadius:20, padding:"3px 12px", fontSize:12, color:"#1a4a80" }}>
                           {w}
-                          <span style={{ cursor:"pointer", color:"var(--color-text-secondary)", fontSize:14, lineHeight:1 }} onClick={() => setKwDraft(d => ({ ...d, [s.id]:d[s.id].filter((_,j) => j!==i) }))}>×</span>
+                          <span style={{ cursor:"pointer", color:"#888", fontSize:15, lineHeight:1, fontWeight:500 }} onClick={() => setKwDraft(d => ({ ...d, [s.id]:d[s.id].filter((_,j) => j!==i) }))}>×</span>
                         </span>
                       ))}
-                      <input placeholder="+ keyword (Enter)" style={{ ...S.inp, fontSize:12, padding:"2px 8px", minWidth:140 }}
+                      <input placeholder="+ add keyword, press Enter"
+                        style={{ border:"1px solid #ccc", background:"#fff", color:"#222", padding:"4px 10px", borderRadius:20, fontSize:12, minWidth:180, outline:"none" }}
                         value={kwInput[s.id]||""}
                         onChange={e => setKwInput(p => ({ ...p, [s.id]:e.target.value }))}
                         onKeyDown={e => {
@@ -535,9 +545,13 @@ export default function App() {
               </div>
             ))}
 
-            <div style={{ display:"flex", gap:8, paddingTop:"0.75rem", borderTop:"0.5px solid var(--color-border-tertiary)" }}>
-              <button style={S.btnP} onClick={saveKw}>Save & re-categorize all projects</button>
-              <button style={S.btn} onClick={() => { setKwDraft(JSON.parse(JSON.stringify(DEFAULT_KEYWORDS))); setKwInput({}); }}>Reset to defaults</button>
+            <div style={{ display:"flex", gap:10, paddingTop:"1rem", borderTop:"1px solid #ddd", marginTop:"0.5rem" }}>
+              <button style={{ border:"none", background:"#185FA5", color:"#fff", padding:"8px 20px", borderRadius:7, fontSize:13, cursor:"pointer", fontWeight:500 }} onClick={saveKw}>
+                Save & re-categorize all projects
+              </button>
+              <button style={{ border:"1px solid #ccc", background:"#f5f5f5", color:"#333", padding:"8px 16px", borderRadius:7, fontSize:13, cursor:"pointer" }} onClick={() => { setKwDraft(JSON.parse(JSON.stringify(DEFAULT_KEYWORDS))); setKwInput({}); }}>
+                Reset to defaults
+              </button>
             </div>
           </div>
         </div>
