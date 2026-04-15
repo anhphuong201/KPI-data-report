@@ -123,7 +123,7 @@ const DEFAULT_KEYWORDS = {
   TC_CIHR:["Canadian Institutes of Health Research","CIHR","Instituts de recherche en santé du Canada","IRSC","Chaire de recherche en santé"],
   TC_SSHRC:["Social Sciences and Humanities Research Council","SSHRC","Conseil de recherches en sciences humaines","CRSH","Insight Grant"],
   TC_MITACS:["Mitacs","MITACS","ICAN","Accélération","Accelerate","Elevate","Globalink"],
-  TC_OTHER:["Tri-Council","CFI","Canada Foundation for Innovation","Fondation canadienne pour l'innovation","AARMS","Atlantic Association for Research in the Mathematical Sciences"],
+  TC_OTHER:["Tri-Council","CFI","Canada Foundation for Innovation","Fondation canadienne pour l'innovation"],
   ACOA_AIF:["AIF","Atlantic Innovation Fund","Fonds d'innovation de l'Atlantique"],
   ACOA_REGI:["REGI","RRRF","Regional Relief","Regional Economic Growth"],
   ACOA_BDP:["BDP","Business Development Program"],
@@ -131,9 +131,9 @@ const DEFAULT_KEYWORDS = {
   PROV_VOUCHER:["Voucher","Bon de service","Innovation Voucher"],
   PROV_OTHER:["Province","Provincial","Gouvernement du Nouveau-Brunswick","Government of New Brunswick","Government of Nova Scotia","Government of Newfoundland and Labrador","Government of Prince Edward Island"],
   GOV_LEVERAGED:["SIF","Strategic Innovation Fund","FedDev"],
-  RD_INDUSTRY:["Industry R&D","Research Contract","Contrat de recherche","Industry Partner","Contract"],
-  RD_OTHER:["Research Agreement","Research Services","Testing","Clinical","NGO","Not-for-profit","Association","Community"],
-  RD_GOV:["Government of Canada","Gouvernement du Canada","Canadian Heritage","Department of Canadian Heritage","DND","Agriculture Canada","Environment Canada","Ministère de l'Éducation","Gouvernement du Nouveau-Brunswick"],
+  RD_INDUSTRY:["Industry R&D","Research Contract","Research Agreement", "Research Services", "Testing","Contrat de recherche","Industry Partner","Contract", "Inc.", "Corporate"],
+  RD_OTHER:["NGO","Not-for-profit","Association","Community", "Society"],
+  RD_GOV:["Government of Canada","Gouvernement du Canada","Canadian Heritage","Department of","DND","Agriculture Canada","Environment Canada","Government"],
 };
 
 function detectCategory(agency, program, kw) {
@@ -173,11 +173,11 @@ function normalize(raw, sheet, kw) {
     }
     return "";
   };
-  const agency=find("agency","agence","funding agency","sponsor source");
+  const agency=find("agency","agence","funding agency","sponsor source", "sponsor");
   const program=find("program","programme","funding program");
-  const title=find("project title","titre du projet","titre");
+  const title=find("project title","titre du projet","titre", "project");
   const pi=find("principal investigator","investigator info","chercheur principal");
-  const amount=parseFloat(String(find("awarded amount","amount","montant")).replace(/[^0-9.]/g,""))||0;
+  const amount=parseFloat(String(find("awarded amount","amount","montant", "dollar")).replace(/[^0-9.]/g,""))||0;
   const startDate=find("start date","date de début","sponsor start");
   const dept=find("department","département","faculty","faculté","principal investigator department");
   const agencyIndustry=find("sponsor industry","industry","industrie");
@@ -609,7 +609,7 @@ export default function App() {
             <div style={card}>
               <div style={{fontSize:15,fontWeight:700,marginBottom:"0.6rem"}}>Upload funding export</div>
               <p style={{fontSize:13,color:B.textMuted,lineHeight:1.65,margin:"0 0 1.25rem"}}>
-                Upload the .xlsx exported from ROMEO or your institution's research system. Each worksheet is treated as one institution.
+                Upload the .xlsx exported from ROMEO or your institution's research system.
               </p>
               <div style={{border:`2px dashed ${B.greenMid}`,borderRadius:10,padding:"2rem",textAlign:"center",marginBottom:"0.75rem",background:B.greenLight}}>
                 <div style={{fontSize:13,color:B.textMuted,marginBottom:"0.75rem"}}>Multi-sheet .xlsx supported (ROMEO, Banner, etc.)</div>
